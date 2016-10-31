@@ -7,36 +7,97 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 151447c on 10/24/2016.
+ * Created by 151447c on 10/31/15.
  */
-@WebServlet(name = "BookCatalogServlet", urlPatterns = "/bookcatalog")
+@WebServlet(name = "BookCatalogServlet", urlPatterns="/bookcatalog")
+
 public class BookCatalogServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        BookDBAO db = new BookDBAO();
-        List<BookDetails> arr = db.getAllBookDetails();
+        PrintWriter out = response.getWriter();
+        try {
+            BookDBAO db = new BookDBAO();
+            List<BookDetails> list = db.getAllBook();
+            out.println("<html>" + "<head><title>Duke's Bookstore</title></head>" +
+                    "<body  bgcolor=\"#ffffff\">" + "<center>" +
+                    "<hr> <br> &nbsp;" + "<h1>" +
+                    "<font size=\"+3\" color=\"#CC0066\">Duke's </font> <img src=\"" +
+                    "./duke.books.gif\" alt=\"Duke holding books\"\">" +
+                    "<font size=\"+3\" color=\"black\">Bookstore</font>" + "</h1>" +
+                    "</center>" + "<br> &nbsp; <hr> <br> ");
+
+            out.println("<br> &nbsp;" + "<h3>Please Choose from our selection" +
+                    "</h3>" + "<center> <table summary=\"layout\">");
+
+            for (BookDetails book : list) {
+                String bookId = book.getBookId();
+                out.println("<tr>" + "<td bgcolor=\"#ffffaa\">" + "<a href=\"" +
+                        response.encodeURL(request.getContextPath() +
+                                "/bookdetails?bookId=" + bookId) + "\"> <strong>" +
+                        book.getTitle() + "&nbsp; </strong></a></td>" +
+                        "<td bgcolor=\"#ffffaa\" rowspan=2>" + book.getPrice() +
+                        "&nbsp; </td>" + "<td bgcolor=\"#ffffaa\" rowspan=2>" +
+                        "<a href=\"" +
+                        response.encodeURL(request.getContextPath() +
+                                "/bookcatalog?bookId=" + bookId) + "\"> &nbsp;" +
+                        "Add to Cart&nbsp;</a></td></tr>" +
+                        "<tr>" + "<td bgcolor=\"#ffffff\">" + "&nbsp; &nbsp;" +
+                        "by<em> " + book.getFirstName() +
+                        " " + book.getSurname() + "</em></td></tr>");
+            }
+
+            out.println("</table></center></body></html>");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException(e);
+        }
+        /*try {
+            BookDBAO db = new BookDBAO();
+            List<BookDetails> list = db.getAllBook();
+            request.setAttribute("books", list);
+            getServletContext().getRequestDispatcher("/bookcatalog.jsp").forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new ServletException(e);
+            }
         PrintWriter out = response.getWriter();
 
-        out.println("<html>");
-        out.println("<body>");
-        out.println("<table>");
-        for(int i=0; i<arr.size();i++){
-            out.println("<tr>");
-            out.println("<td>"+arr.get(i).getTitle()+"</td>");
-            out.println("<td>"+arr.get(i).getDescription()+"</td>");
-            out.println("<td>"+arr.get(i).getYear()+"</td>");
-            out.println("/<tr>");
+        BookDBAO db = new BookDBAO();
+        List<BookDetails> list = db.getAllBook();
+        out.println("<html>" + "<head><title>Duke's Bookstore</title></head>" +
+                "<body  bgcolor=\"#ffffff\">" + "<center>" +
+                "<hr> <br> &nbsp;" + "<h1>" +
+                "<font size=\"+3\" color=\"#CC0066\">Duke's </font> <img src=\"" +
+                "./duke.books.gif\" alt=\"Duke holding books\"\">" +
+                "<font size=\"+3\" color=\"black\">Bookstore</font>" + "</h1>" +
+                "</center>" + "<br> &nbsp; <hr> <br> ");
+
+        out.println("<br> &nbsp;" + "<h3>Please Choose from our selection" +
+                "</h3>" + "<center> <table summary=\"layout\">");
+
+        for (BookDetails book : list) {
+            String bookId = book.getBookId();
+            out.println("<tr>" + "<td bgcolor=\"#ffffaa\">" + "<a href=\"" +
+                    response.encodeURL(request.getContextPath() +
+                            "/bookdetails?bookId=" + bookId) + "\"> <strong>" +
+                    book.getTitle() + "&nbsp; </strong></a></td>" +
+                    "<td bgcolor=\"#ffffaa\" rowspan=2>" + book.getPrice() +
+                    "&nbsp; </td>" + "<td bgcolor=\"#ffffaa\" rowspan=2>" +
+                    "<a href=\"" +
+                    response.encodeURL(request.getContextPath() +
+                            "/bookcatalog?bookId=" + bookId) + "\"> &nbsp;" +
+                    "Add to Cart&nbsp;</a></td></tr>" +
+                    "<tr>" + "<td bgcolor=\"#ffffff\">" + "&nbsp; &nbsp;" +
+                    "by<em> " + book.getFirstName() +
+                    " " + book.getSurname() + "</em></td></tr>");
         }
-        out.println("</table>");
-        out.println("</body>");
-        out.println("</html>");
-        out.close();
+
+        out.println("</table></center></body></html>");*/
     }
 }

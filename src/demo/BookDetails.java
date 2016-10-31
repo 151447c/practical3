@@ -4,7 +4,6 @@ package demo;
  * Created by 151447c on 10/24/2016.
  */
 public class BookDetails {
-
     private String bookId = null;
     private String title = null;
     private String firstName = null;
@@ -15,22 +14,6 @@ public class BookDetails {
     private String description = null;
     private int inventory = 0;
 
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public boolean isOnSale() {
-        return onSale;
-    }
-
-    public void setOnSale(boolean onSale) {
-        this.onSale = onSale;
-    }
-
     public String getBookId() {
         return bookId;
     }
@@ -38,6 +21,7 @@ public class BookDetails {
     public void setBookId(String bookId) {
         this.bookId = bookId;
     }
+
     public String getTitle() {
         return title;
     }
@@ -61,6 +45,23 @@ public class BookDetails {
     public void setSurname(String surname) {
         this.surname = surname;
     }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public boolean isOnSale() {
+        return onSale;
+    }
+
+    public void setOnSale(boolean onSale) {
+        this.onSale = onSale;
+    }
+
     public int getYear() {
         return year;
     }
